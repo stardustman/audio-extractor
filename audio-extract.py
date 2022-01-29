@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import subprocess
 import os
 import moviepy.editor as mp
@@ -6,8 +6,8 @@ import moviepy.editor as mp
 video_link = input('please input a video link: ')
 print(video_link)
 
-p = subprocess.run(["you-get", video_link],capture_output=True,
-                           encoding="utf-8")
+p = subprocess.run(["you-get", video_link],
+                   capture_output=True, encoding="utf-8")
 
 '''
 site:                Bilibili
@@ -28,9 +28,9 @@ for x in range(len(res)):
 # print(res[1])
 
 # 1. get video format
-print(res[3])
-fmt = (res[3].split(":")[1]).strip()
-format = ''.join([i for i in fmt if not i.isdigit()])
+print(res[4])
+format = (res[4].split(":")[1]).strip()
+# format = ''.join([i for i in fmt if not i.isdigit()])
 print(format)
 
 # Get the current working directory
@@ -40,23 +40,18 @@ cwd = os.getcwd()
 files = os.listdir(os.getcwd())
 title = ''
 for file in files:
-  if(file.endswith('.cmt.xml')):
-    title = file.split('.')[0]
-    break
-
+    if(file.endswith('.cmt.xml')):
+        title = file.split('.')[0]
+        break
 
 # print(format)
-fileName = cwd + '/' + title + '.' + format 
-
-file_path = os.path.join('.', cwd, title + '.' + format)
-print(file_path)
+fileName = cwd + '/' + title + '.' + format
 
 print("title is " + title)
-print("file path is ：" + fileName)
-my_clip = mp.VideoFileClip(filename=file_path)
+print("file path is ：" + repr(fileName))
+my_clip = mp.VideoFileClip(filename=fileName)
 my_clip.audio.write_audiofile(title + ".mp3")
 my_clip.close()
 
 os.remove(fileName)
 os.remove(title + ".cmt.xml")
-
